@@ -1,0 +1,7 @@
+node_modules
+.next
+.env.local
+.env
+*.json.bak
+client_secret_*.json
+.DS_Store
