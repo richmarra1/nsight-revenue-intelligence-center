@@ -46,9 +46,14 @@ function buildHtmlEmail({ headline, atRisk, expansion, nextSteps }) {
 
   return `
 <div style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;color:#1a1a2e;">
- <table width="100%" style="margin-bottom:16px;"><tr><td align="right">
-    <span style="font-size:16px;font-weight:700;letter-spacing:0.5px;color:#1a1a2e;">NSIGHT <span style="color:#4FD1C5;">HEALTH</span></span>
-  </td></tr></table>
+  <div style="display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-bottom:16px;">
+    <table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+      <tr>
+        <td style="background-color:#1a1a2e;border-radius:6px;width:28px;height:28px;text-align:center;vertical-align:middle;color:#4FD1C5;font-size:14px;font-weight:700;">N</td>
+        <td style="padding-left:8px;font-size:16px;font-weight:700;letter-spacing:0.5px;color:#1a1a2e;">NSIGHT <span style="color:#4FD1C5;">HEALTH</span></td>
+      </tr>
+    </table>
+  </div>
 
   <p style="font-size:15px;line-height:1.5;margin:0 0 20px 0;">${escapeHtml(headline)}</p>
 
@@ -57,12 +62,12 @@ function buildHtmlEmail({ headline, atRisk, expansion, nextSteps }) {
 
   <h3 style="color:#27ae60;font-size:15px;margin:0 0 8px 0;">Expansion Opportunities</h3>
   <div style="font-size:14px;line-height:1.5;color:#1a1a2e;margin-bottom:20px;">${numberedListToHtml(expansion)}</div>
-
-  <h3 style="color:#2980b9;font-size:15px;margin:0 0 8px 0;">Recommended Next Steps</h3>
+<h3 style="color:#1F5FA8;font-size:15px;margin:0 0 8px 0;">Recommended Next Steps</h3>
   <div style="font-size:14px;line-height:1.5;color:#1a1a2e;margin-bottom:20px;">${numberedListToHtml(nextSteps)}</div>
 
   <p style="font-size:19px;font-weight:700;color:#1a1a2e;margin-top:24px;margin-bottom:4px;">Nsight Revenue Intelligence Center</p>
-  <p style="font-size:13px;color:#888;margin:0;">For questions, contact Richard Marra at <a href="${phoneHref}" style="color:#2980b9;text-decoration:none;">${phoneDisplay}</a></p>
+  <p style="font-size:13px;color:#888;margin:0 0 4px 0;">For questions, contact Richard Marra at <a href="${phoneHref}" style="color:#1F5FA8;text-decoration:none;">${phoneDisplay}</a></p>
+  <p style="font-size:12px;color:#aaa;margin:0;">Built by: Richard Marra</p>
 </div>`.trim();
 }
 
