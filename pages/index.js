@@ -30,6 +30,14 @@ function StatusChip({ acc }) {
   return <div className={`status-chip ${cls}`}><span className="dot"></span>{acc.statusLabel}</div>;
 }
 
+function sectionClassFor(header) {
+  const h = header.toUpperCase();
+  if (h.includes('TOP RISK')) return 'sec-risk';
+  if (h.includes('EXECUTIVE ACTION') || h.includes('NEEDING ACTION')) return 'sec-gold';
+  if (h.includes('PRIORIT') || h.includes('CSM ACTION')) return 'sec-blue';
+  return '';
+}
+
 function formatBrief(text) {
   const sections = text.split(/\n(?=[A-Z][A-Z\s]{4,})/);
   return (
@@ -39,10 +47,11 @@ function formatBrief(text) {
         if (!lines.length) return null;
         const header = lines[0].replace(/:$/, '').trim();
         const bullets = lines.slice(1).map(l => l.replace(/^[-•]\s*/, '').trim()).filter(l => l);
+        const secClass = sectionClassFor(header);
         return (
-          <div key={i}>
-            <h4>{header}</h4>
-            <ul>{bullets.map((b, j) => <li key={j}>{b}</li>)}</ul>
+          <div key={i} className={secClass}>
+            <h4 className={secClass}>{header}</h4>
+            <ol>{bullets.map((b, j) => <li key={j}>{b}</li>)}</ol>
           </div>
         );
       })}
@@ -75,8 +84,10 @@ export default function Home() {
 
   // Email send modal
   const [sendModalOpen, setSendModalOpen] = useState(false);
-  const [sendStatus, setSendStatus] = useState(null); // null | 'pending' | 'success' | 'error'
+  const [sendStatus, setSendStatus] = useState(null); // null | 'collecting' | 'pending' | 'success' | 'error'
   const [sendResult, setSendResult] = useState(null);
+  const [recipientEmail, setRecipientEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
 
   // Tour
   const [tourActive, setTourActive] = useState(false);
@@ -190,19 +201,34 @@ export default function Home() {
     }
   }
 
-  async function sendToInbox() {
+  function openSendModal() {
     if (!briefText) {
       showToast('Generate the CEO brief first');
       return;
     }
+    setRecipientEmail('');
+    setEmailError('');
     setSendModalOpen(true);
-    setSendStatus('pending');
+    setSendStatus('collecting');
     setSendResult(null);
+  }
+
+  function isValidEmail(addr) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(addr.trim());
+  }
+
+  async function confirmSendToInbox() {
+    if (!isValidEmail(recipientEmail)) {
+      setEmailError('Enter a valid email address');
+      return;
+    }
+    setEmailError('');
+    setSendStatus('pending');
     try {
       const res = await fetch('/api/send-brief', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ briefText })
+        body: JSON.stringify({ briefText, recipientEmail: recipientEmail.trim() })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Send failed');
@@ -266,9 +292,12 @@ export default function Home() {
             <h1 className="title">NSIGHT Revenue Intelligence Center</h1>
             <p className="subtitle">AI-assisted revenue visibility for retention risk, expansion opportunity, and executive action.</p>
           </div>
-          <div className="top-actions">
-            <button className="btn btn-ghost" id="btn-tour" onClick={startTour}>Start Guided Walkthrough</button>
-            <button className="btn btn-primary" id="btn-scan" onClick={runScan}>Run Weekly Revenue Intelligence Brief</button>
+          <div className="top-actions-wrap">
+            <img src="/nsight-logo.svg" alt="NSIGHT Health" className="header-logo" />
+            <div className="top-actions">
+              <button className="btn btn-ghost" id="btn-tour" onClick={startTour}>Start Guided Walkthrough</button>
+              <button className="btn btn-primary" id="btn-scan" onClick={runScan}>Run Weekly Revenue Intelligence Brief</button>
+            </div>
           </div>
         </header>
 
@@ -310,6 +339,7 @@ export default function Home() {
         </div>
 
         <div className="footer-note">NSIGHT REVENUE INTELLIGENCE CENTER · PROTOTYPE ENVIRONMENT · ALL ACCOUNT DATA IS ILLUSTRATIVE, NO PHI</div>
+        <div className="footer-credit">Built by: Richard Marra</div>
       </div>
 
       {/* Scan overlay */}
@@ -353,7 +383,7 @@ export default function Home() {
               </div>
               <div className="modal-actions">
                 <button className="btn btn-primary" onClick={whyFlagged}>Why did AI flag this account?</button>
-                <button className="btn btn-ghost" onClick={() => speak(`${currentAccount.name}. ${currentAccount.statusLabel}. Annual recurring revenue, ${Math.round(currentAccount.arr / 1000)} thousand dollars. Retention risk score, ${currentAccount.riskScore} out of 100. ${accAnalysis}`)}>🔊 Listen</button>
+                <button className="btn btn-warm" onClick={() => speak(`${currentAccount.name}. ${currentAccount.statusLabel}. Annual recurring revenue, ${Math.round(currentAccount.arr / 1000)} thousand dollars. Retention risk score, ${currentAccount.riskScore} out of 100. ${accAnalysis}`)}>🔊 Listen</button>
                 {speaking && <button className="btn btn-ghost" onClick={stopSpeaking}>⏹ Stop</button>}
               </div>
             </>
@@ -379,9 +409,9 @@ export default function Home() {
           </div>
           <div className="modal-actions">
             <button className="btn btn-primary" onClick={generateBrief}>Generate CEO Brief</button>
-            <button className="btn btn-ghost" onClick={() => briefText ? speak(briefText.replace(/[-•]/g, '')) : showToast('Generate the CEO brief first')}>🔊 Listen to Executive Brief</button>
+            <button className="btn btn-warm" onClick={() => briefText ? speak(briefText.replace(/[-•]/g, '')) : showToast('Generate the CEO brief first')}>🔊 Listen to Executive Brief</button>
             {speaking && <button className="btn btn-ghost" onClick={stopSpeaking}>⏹ Stop</button>}
-            <button className="btn btn-teal" onClick={sendToInbox}>Send Brief to Inbox</button>
+            <button className="btn btn-teal" onClick={openSendModal}>Send Brief to Inbox</button>
           </div>
         </div>
       </div>
@@ -393,6 +423,25 @@ export default function Home() {
           <h2>Sending Executive Brief</h2>
           <div className="modal-sub">Real Gmail send, no compose window, no manual approval step</div>
 
+          {sendStatus === 'collecting' && (
+            <div className="email-collect">
+              <label htmlFor="recipient-email-input" className="email-collect-label">Send this brief to</label>
+              <input
+                id="recipient-email-input"
+                type="email"
+                className="email-collect-input"
+                placeholder="you@company.com"
+                value={recipientEmail}
+                onChange={(e) => setRecipientEmail(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') confirmSendToInbox(); }}
+                autoFocus
+              />
+              {emailError && <div className="email-collect-error">{emailError}</div>}
+              <div className="modal-actions">
+                <button className="btn btn-teal" onClick={confirmSendToInbox}>Send Brief</button>
+              </div>
+            </div>
+          )}
           {sendStatus === 'pending' && (
             <div className="send-status pending"><span className="spinner"></span> Sending email via Gmail API...</div>
           )}
