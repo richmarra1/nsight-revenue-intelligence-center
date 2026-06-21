@@ -46,9 +46,9 @@ function buildHtmlEmail({ headline, atRisk, expansion, nextSteps }) {
 
   return `
 <div style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;color:#1a1a2e;">
-  <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
-    <div style="font-size:16px;font-weight:700;letter-spacing:0.5px;color:#1a1a2e;">NSIGHT <span style="color:#4FD1C5;">HEALTH</span></div>
-  </div>
+ <table width="100%" style="margin-bottom:16px;"><tr><td align="right">
+    <span style="font-size:16px;font-weight:700;letter-spacing:0.5px;color:#1a1a2e;">NSIGHT <span style="color:#4FD1C5;">HEALTH</span></span>
+  </td></tr></table>
 
   <p style="font-size:15px;line-height:1.5;margin:0 0 20px 0;">${escapeHtml(headline)}</p>
 
