@@ -40,7 +40,7 @@ html, body{
 header.top{
   display:flex; justify-content:space-between; align-items:flex-start;
   padding-bottom:28px; border-bottom:1px solid var(--line); margin-bottom:32px;
-  gap: 20px; flex-wrap: wrap;
+  gap: 20px; flex-wrap: nowrap;
 }
 .brand-eyebrow{
   font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:.16em;

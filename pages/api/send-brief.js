@@ -65,7 +65,7 @@ function buildHtmlEmail({ headline, atRisk, expansion, nextSteps }) {
 <h3 style="color:#1F5FA8;font-size:15px;margin:0 0 8px 0;">Recommended Next Steps</h3>
   <div style="font-size:14px;line-height:1.5;color:#1a1a2e;margin-bottom:20px;">${numberedListToHtml(nextSteps)}</div>
 
-  <p style="font-size:19px;font-weight:700;color:#1a1a2e;margin-top:24px;margin-bottom:4px;">Nsight Revenue Intelligence Center</p>
+  <p style="font-size:19px;font-weight:700;color:#1a1a2e;margin-top:24px;margin-bottom:4px;">Revenue Intelligence Center – AI Executive Briefing Prototype</p>
   <p style="font-size:13px;color:#888;margin:0 0 4px 0;">For questions, contact Richard Marra at <a href="${phoneHref}" style="color:#1F5FA8;text-decoration:none;">${phoneDisplay}</a></p>
   <p style="font-size:12px;color:#aaa;margin:0;">Built by: Richard Marra</p>
 </div>`.trim();
