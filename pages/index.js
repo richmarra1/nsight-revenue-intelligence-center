@@ -18,7 +18,7 @@ const scanSteps = [
 ];
 
 const tourSteps = [
-  { target: '#kpi-section', text: "This dashboard shows revenue risk and expansion opportunity across the Nsight Health portfolio, refreshed continuously, not just at renewal time." },
+  { target: '#kpi-section', text: "This dashboard shows revenue risk and expansion opportunity across the Revenue Intel portfolio, refreshed continuously, not just at renewal time." },
   { target: '#accounts-section', text: "These accounts are pulled from the CRM and scored automatically. No one has to remember to check on them." },
   { target: '#accounts-grid', text: "Accounts requiring executive attention surface to the top. Click any card to see exactly why the AI flagged it." },
   { target: '#btn-scan', text: "This button runs the weekly intelligence brief. It scans every account, scores risk and expansion, and writes the executive summary." },
@@ -282,18 +282,18 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>NSIGHT Revenue Intelligence Center</title>
+        <title>Revenue Intelligence Center – AI Executive Briefing Prototype</title>
       </Head>
 
       <div className="app">
         <header className="top">
           <div>
-            <div className="brand-eyebrow"><span className="pulse-dot"></span>NSIGHT HEALTH · LIVE SIGNAL FEED</div>
-            <h1 className="title">NSIGHT Revenue Intelligence Center</h1>
+            <div className="brand-eyebrow"><span className="pulse-dot"></span>REVENUE INTEL · LIVE SIGNAL FEED</div>
+            <h1 className="title">Revenue Intelligence Center – AI Executive Briefing Prototype</h1>
             <p className="subtitle">AI-assisted revenue visibility for retention risk, expansion opportunity, and executive action.</p>
           </div>
           <div className="top-actions-wrap">
-            <img src="/nsight-logo.svg" alt="NSIGHT Health" className="header-logo" />
+            <img src="/nsight-logo.svg" alt="Revenue Intel" className="header-logo" />
             <div className="top-actions">
               <button className="btn btn-ghost" id="btn-tour" onClick={startTour}>Start Guided Walkthrough</button>
               <button className="btn btn-primary" id="btn-scan" onClick={runScan}>Run Weekly Revenue Intelligence Brief</button>
@@ -338,7 +338,7 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="footer-note">NSIGHT REVENUE INTELLIGENCE CENTER · PROTOTYPE ENVIRONMENT · ALL ACCOUNT DATA IS ILLUSTRATIVE, NO PHI</div>
+        <div className="footer-note">Revenue Intelligence Center – AI Executive Briefing Prototype · PROTOTYPE ENVIRONMENT · ALL ACCOUNT DATA IS ILLUSTRATIVE, NO PHI</div>
         <div className="footer-credit">Built by: Richard Marra</div>
       </div>
 
