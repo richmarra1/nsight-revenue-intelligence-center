@@ -50,7 +50,7 @@ function buildHtmlEmail({ headline, atRisk, expansion, nextSteps }) {
     <table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
       <tr>
         <td style="background-color:#1a1a2e;border-radius:6px;width:28px;height:28px;text-align:center;vertical-align:middle;color:#4FD1C5;font-size:14px;font-weight:700;">N</td>
-        <td style="padding-left:8px;font-size:16px;font-weight:700;letter-spacing:0.5px;color:#1a1a2e;">NSIGHT <span style="color:#4FD1C5;">HEALTH</span></td>
+        <td style="padding-left:8px;font-size:16px;font-weight:700;letter-spacing:0.5px;color:#1a1a2e;">REVENUE <span style="color:#4FD1C5;">INTEL</span></td>
       </tr>
     </table>
   </div>
