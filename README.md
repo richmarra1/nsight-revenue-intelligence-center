@@ -1,4 +1,4 @@
-# NSIGHT Revenue Intelligence Center
+# Customer Success Revenue Intelligence Center
 
 Real Next.js build with live Claude API calls and real Gmail send (no compose-window handoff, actually lands in the inbox).
 
